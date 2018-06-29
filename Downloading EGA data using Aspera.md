@@ -35,23 +35,31 @@ Things you will need before downloading:
     
 2. Downloading data from EGA
 
-    2.A Download a specific file on HPC
+    - Download a specific file on HPC
     
-        2.A.1 CD to the directory with executable ascp
+    2.1 CD to the directory with executable ascp
+    
         
         ```
         cd /home/yhuan162/.aspera/connect/bin
         ```
         
-      2.A.2 Download a specific file from EGA, for example, download file "EGAD00010001474/ukb_mfi_chrX_v3.txt.cip" to directory "/projects/ps-janssen3/dsci-pa/yhuan162/ukbb/EGAD/RawData"
+    2.2 Download a specific file from EGA, for example, download file "EGAD00012341234/ukb_mfi_chrX_v3.txt.cip" to your desired directory 
         
         ```
-        ./ascp --ignore-host-key -d -QT -L- -l 1000M ega-box-851@xfer.crg.eu:EGAD00010001474/ukb_mfi_chrX_v3.txt.cip /projects/ps-janssen3/dsci-pa/yhuan162/ukbb/EGAD/RawData
+        ./ascp --ignore-host-key -d -QT -L- -l 1000M username@xfer.crg.eu:EGAD00012341234/ukb_mfi_chrX_v3.txt.cip /your/desired/directory
         ```
+        
+      after input the password associate with account, it will down the file "ukb_mfi_chrX_v3.txt.cip" the direcotry on HPC server
 
 
+    - Download all EGA files on HPC
 
-
+    2.1 CD to the directory you wish to save all EGA files
+    
+      ```
+      cd /projects/ps-janssen3/dsci-pa/yhuan162/ukbb/EGAD/RawData
+      ```
 
 
 
