@@ -39,7 +39,6 @@ Things you will need before downloading:
     
     2.1 CD to the directory with executable ascp
     
-        
         ```
         cd /home/yhuan162/.aspera/connect/bin
         ```
@@ -58,10 +57,42 @@ Things you will need before downloading:
     2.1 CD to the directory you wish to save all EGA files
     
       ```
-      cd /projects/ps-janssen3/dsci-pa/yhuan162/ukbb/EGAD/RawData
+      cd /your/desired/directory
       ```
+      
+    2.2 Create a 'download.sh' file in your desired directory with following code 
+    
+    ```
+    #!/bin/bash
+
+    #SBATCH -p shared
+    #SBATCH --time 0-04:00:00
+    #SBATCH --job-name ega
+    #SBATCH --output ega-log-%J.txt
+    #SBATCH --nodes 1
+    #SBATCH --ntasks-per-node=1
+
+    #inits
+    export ASPERA_SCP_PASS="yourpawword";
+    username="yourusername"
+    destination="`dirname $/p`"
+    parallel_downloads=8
+
+    #overwrite default parameters?
+    if [ ! -z $1 ]; then parallel_downloads="$1"; fi
+    if [ ! -z $2 ]; then destination="$2"; fi
 
 
+    #get small files in its most convenient way
+    ascp --ignore-host-key -E "*.cip" -E "download.sh" -d -QTl 100m ${username}@xfer.crg.eu: ${destination}/
+
+    #get not small files in its most convenient way
+    cat ${destination}/dbox_content | xargs -i --max-procs=$parallel_downloads bash -c "mkdir -p $destination/\`dirname {}\`; echo \"Downloading {}, please wait ...\"; ascp --ignore-host-key -k 1 -QTl 100m ${username}@xfer.crg.eu:{} ${destination}/{} >/dev/null 2>&1"
+
+
+    ```
+
+A folder "$" will be crteated, and all files listed in "dbox_content" will be downloaded here.
 
 
 
