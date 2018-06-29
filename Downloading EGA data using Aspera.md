@@ -39,15 +39,15 @@ Things you will need before downloading:
     
     2.1 CD to the directory with executable ascp
     
-        ```
+        
         cd /home/yhuan162/.aspera/connect/bin
-        ```
+        
         
     2.2 Download a specific file from EGA, for example, download file "EGAD00012341234/ukb_mfi_chrX_v3.txt.cip" to your desired directory 
         
-        ```
+       
         ./ascp --ignore-host-key -d -QT -L- -l 1000M username@xfer.crg.eu:EGAD00012341234/ukb_mfi_chrX_v3.txt.cip /your/desired/directory
-        ```
+        
         
       after input the password associate with account, it will down the file "ukb_mfi_chrX_v3.txt.cip" the direcotry on HPC server
 
@@ -56,9 +56,9 @@ Things you will need before downloading:
 
     2.1 CD to the directory you wish to save all EGA files
     
-      ```
-      cd /your/desired/directory
-      ```
+    ```
+    cd /your/desired/directory
+    ```
       
     2.2 Create a 'download.sh' file in your desired directory with following code 
     
