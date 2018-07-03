@@ -58,9 +58,13 @@ Things you will need before downloading:
     
     ```
     cd /your/desired/directory
+    export PATH=$PATH:~/.aspera/connect/bin/
     ```
-      
-    2.2 Create a 'download.sh' file in your desired directory with following code 
+    
+    Make sure run the export command to make ascp executable before submit the `.sh` script
+
+
+    2.2 Create a `download.sh` file in your desired directory with following code 
     
     ```
     #!/bin/bash
