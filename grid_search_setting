@@ -1,10 +1,10 @@
-# Description 
+
 This instruction will demostrate settings for grid/random search using [h2o](https://docs.h2o.ai/)
 
 
 1. Random search for GBM
 
-    ```
+```
     
     ## Set timer
     t0 <- proc.time()
@@ -83,7 +83,7 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
     fit_bdx <- h2o.getModel(as.character(bm))
     fit_bdx
     
-    ```
+```
 
 
 
