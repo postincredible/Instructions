@@ -3,8 +3,8 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
 
 
 1. Random search for GBM
-      
-    ```
+
+```
 ## Set timer
 t0 <- proc.time()
 
@@ -81,4 +81,7 @@ dl_gridperf
 bm <- dl_gridperf@model_ids[1]
 fit_bdx <- h2o.getModel(as.character(bm))
 fit_bdx
-    ```
+```
+
+
+
