@@ -76,7 +76,7 @@ grid_path <- h2o.saveGrid(grid_directory = paste0(getwd(),'/save_models/',outcom
 dl_gridperf <- h2o.getGrid(grid_id = gid
                            ,sort_by = 'AUC'
                            #,sort_by = 'specificity'
-                           ,decreasing = TRUE) # smaller the better
+                           ,decreasing = TRUE) 
 dl_gridperf
 bm <- dl_gridperf@model_ids[1]
 fit_bdx <- h2o.getModel(as.character(bm))
