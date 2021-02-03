@@ -1,0 +1,84 @@
+# Description 
+This instruction will demostrate settings for grid/random search using [h2o](https://docs.h2o.ai/)
+
+
+1. Random search for GBM
+      
+    ```
+## Set timer
+t0 <- proc.time()
+
+### Random search grid
+grid_params <- list(max_depth = c(3, 5,  10, 15)
+                    #,min_rows = c(5, 10) #c(1, 5, 10)
+                    ,sample_rate = c(0.8, 1.0)
+                    #histogram_type = c('AUTO', 'Random', 'RoundRobin')
+                    ,col_sample_rate = c(0.5,0.8,1)
+                    ,col_sample_rate_change_per_level = c(0.9,1,1.1)
+                    ,col_sample_rate_per_tree = c(0.5, 0.8, 1.0)
+                    ,ntrees=c(50,100,200))
+
+ce = c()
+for (e in 1:length(grid_params)) {
+  ce[e]= length(grid_params[[e]])
+}
+cat('count to be searched models: ', prod(ce), '\n')
+
+grid_criteria <- list(strategy = "RandomDiscrete",
+                      stopping_metric = 'AUC',
+                      stopping_tolerance = 0.00001,
+                      stopping_rounds = 5,
+                      seed = 9527)
+
+gid <- paste0(meth,"_cv_grid")
+
+g <- h2o.grid(algorithm = meth, 
+              x=predictors,
+              y=outcome,
+              grid_id = gid,
+              training_frame = train_bdx,
+              validation_frame = valid_bdx,
+              #nfolds = 10,
+              #ntrees = 100,
+              learn_rate=0.05,
+              learn_rate_annealing=0.99,
+              stopping_metric = 'AUC',
+              stopping_tolerance = 0.0001,
+              stopping_rounds = 5,
+              ## early stopping based on timeout (no model should take more than 1 hour - modify as needed)
+              max_runtime_secs = 3600, 
+              score_tree_interval = 10,  
+              
+              seed = 9527,
+              balance_classes = TRUE,
+              parallelism = 0,
+              hyper_params = grid_params,
+              search_criteria = grid_criteria)
+
+
+dur <- proc.time() - t0
+durT <- paste(dur[3]%/%(3600*24), ' days ', (dur[3]%%(3600*24))%/%3600, ' hrs ', ((dur[3]%%(3600*24))%%3600)%/%60, ' min ', round((((dur[3]%%(3600*24))%%3600))%%60,2), ' sec')
+cat('running time: ',durT, '\n')
+
+#cfm <- h2o.confusionMatrix(rf_bdx, valid=TRUE)
+#summary(rf_bdx)
+
+# save grid
+
+gid_count <- length(g@model_ids)
+cat('count random searched models: ', gid_count, '\n')
+
+grid_path <- h2o.saveGrid(grid_directory = paste0(getwd(),'/save_models/',outcome,'/',meth,'/m',u), grid_id =  gid )
+
+
+
+# save best model 
+dl_gridperf <- h2o.getGrid(grid_id = gid
+                           ,sort_by = 'AUC'
+                           #,sort_by = 'specificity'
+                           ,decreasing = TRUE) # smaller the better
+dl_gridperf
+bm <- dl_gridperf@model_ids[1]
+fit_bdx <- h2o.getModel(as.character(bm))
+fit_bdx
+    ```
