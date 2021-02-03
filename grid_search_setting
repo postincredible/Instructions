@@ -4,7 +4,7 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
 
 1. Random search for GBM
 
-```
+```r
     
     ## Set timer
     t0 <- proc.time()
