@@ -19,7 +19,9 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
                         ,col_sample_rate_per_tree = c(0.5, 0.8, 1.0)
                         ,ntrees=c(50,100,200))
 ```
-    ce = c()
+
+```
+ce = c()
     for (e in 1:length(grid_params)) {
       ce[e]= length(grid_params[[e]])
     }
@@ -32,7 +34,8 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
                           seed = 9527)
 
     gid <- paste0(meth,"_cv_grid")
-
+```    
+```
     g <- h2o.grid(algorithm = meth, 
                   x=predictors,
                   y=outcome,
@@ -60,19 +63,19 @@ This instruction will demostrate settings for grid/random search using [h2o](htt
     dur <- proc.time() - t0
     durT <- paste(dur[3]%/%(3600*24), ' days ', (dur[3]%%(3600*24))%/%3600, ' hrs ', ((dur[3]%%(3600*24))%%3600)%/%60, ' min ', round((((dur[3]%%(3600*24))%%3600))%%60,2), ' sec')
     cat('running time: ',durT, '\n')
-
+```
     #cfm <- h2o.confusionMatrix(rf_bdx, valid=TRUE)
     #summary(rf_bdx)
-
+```
     # save grid
 
     gid_count <- length(g@model_ids)
     cat('count random searched models: ', gid_count, '\n')
 
     grid_path <- h2o.saveGrid(grid_directory = paste0(getwd(),'/save_models/',outcome,'/',meth,'/m',u), grid_id =  gid )
+```
 
-
-
+```
     # save best model 
     dl_gridperf <- h2o.getGrid(grid_id = gid
                                ,sort_by = 'AUC'
