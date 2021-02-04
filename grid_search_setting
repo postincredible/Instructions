@@ -83,5 +83,37 @@ ce = c()
     
 ```
 
+  
+    # ROC curve and AUC: 
+    library(pROC) 
+    
+    tt_bdx_auc <- roc(df_tt[[outcome]], ttpd)
+    tt_auc_ci <- ci.auc(tt_bdx_auc, method = 'd')
+    tt_auc_var <- var(tt_bdx_auc)
+    
+    tt_cm1
+    tt_bdx_auc$auc
+    tt_auc_ci
+    tt_auc_var
+    
+    # Graph ROC and AUC: 
+    
+    sen_spec_df <- tibble(TPR = tt_bdx_auc$sensitivities, FPR = 1 - tt_bdx_auc$specificities)
+    
+    tt_plt <- sen_spec_df %>% 
+      ggplot(aes(x = FPR, ymin = 0, ymax = TPR))+
+      geom_polygon(aes(y = TPR), fill = "red", alpha = 0.3)+
+      geom_path(aes(y = TPR), col = "firebrick", size = 1.2) +
+      geom_abline(intercept = 0, slope = 1, color = "gray37", size = 1, linetype = "dashed") + 
+      theme_bw() +
+      coord_equal() +
+      labs(x = "FPR (1 - Specificity)", 
+           y = "TPR (Sensitivity)", 
+           title = "Model Performance for RF Classifier based on Test Data", 
+           subtitle = paste0("AUC Value: ", tt_bdx_auc$auc %>% round(2)))
+    
+
+
+
 
 
